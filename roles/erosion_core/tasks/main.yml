@@ -1,0 +1,50 @@
+---
+- name: Ensure pip is installed
+  apt:
+    name: python3-pip
+    state: present
+    update_cache: yes
+
+- name: Create /opt/erosion directory
+  file:
+    path: /opt/erosion
+    state: directory
+    mode: '0755'
+
+- name: Copy files to /opt/erosion
+  copy:
+    src: "{{ item }}"
+    dest: /opt/erosion/
+    mode: '0644'
+  loop:
+    - "index.html"
+    - "webrtc_stream.py"
+    - "websocket_control.py"
+    - "gamepad.js"
+    - "styles.css"
+    - "requirements.txt"
+
+- name: Install Python dependencies
+  pip:
+    requirements: /opt/erosion/requirements.txt
+    executable: pip3
+    state: present
+
+- name: Create systemd units for webrtc_stream.py
+  template:
+    src: erosion.service.j2
+    dest: /etc/systemd/system/{{ item }}.service
+    mode: '0644'
+  loop:
+    - erosion_webrtc_stream
+    - erosion_websocket_control
+  notify: Restart {{ item }}
+
+- name: Enable and start services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - erosion_webrtc_stream
+    - erosion_websocket_control

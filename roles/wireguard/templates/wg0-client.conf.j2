@@ -1,0 +1,9 @@
+[Interface]
+PrivateKey = {{ wireguard_private_key }}
+Address = {{ wireguard_client_ip }}
+DNS = {{ wireguard_dns }}
+
+[Peer]
+PublicKey = {{ hostvars[groups['portals'][0]]['wireguard_public_key'] }}
+Endpoint = {{ wireguard_server_endpoint }}:{{ wireguard_server_port }}
+AllowedIPs = {{ wireguard_client_ip }}

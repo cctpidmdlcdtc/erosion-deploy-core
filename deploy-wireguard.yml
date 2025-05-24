@@ -1,0 +1,24 @@
+---
+- name: Deploy WireGuard Infrastructure
+  hosts: all
+  become: yes
+  roles:
+    - wireguard
+
+- name: Configure WireGuard Server
+  hosts: portals
+  become: yes
+  tasks:
+    - name: Include server configuration
+      include_role:
+        name: wireguard
+        tasks_from: server
+
+- name: Configure WireGuard Clients
+  hosts: cores
+  become: yes
+  tasks:
+    - name: Include client configuration
+      include_role:
+        name: wireguard
+        tasks_from: client

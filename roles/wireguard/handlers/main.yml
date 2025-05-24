@@ -1,0 +1,14 @@
+---
+- name: restart wireguard
+  systemd:
+    name: "wg-quick@{{ wireguard_interface }}"
+    state: restarted
+
+- name: reload ufw
+  ufw:
+    state: reloaded
+
+- name: restart nftables
+  systemd:
+    name: nftables
+    state: restarted

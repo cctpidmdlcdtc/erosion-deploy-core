@@ -1,0 +1,12 @@
+---
+- name: Restart erosion_webrtc_stream
+  systemd:
+    name: erosion_webrtc_stream
+    daemon_reload: yes
+    state: restarted
+
+- name: Restart erosion_websocket_control
+  systemd:
+    name: erosion_websocket_control
+    daemon_reload: yes
+    state: restarted

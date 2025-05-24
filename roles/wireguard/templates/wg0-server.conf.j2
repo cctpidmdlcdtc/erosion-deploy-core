@@ -1,0 +1,15 @@
+[Interface]
+PrivateKey = {{ wireguard_private_key }}
+Address = {{ wireguard_server_ip }}
+ListenPort = {{ wireguard_port }}
+SaveConfig = false
+
+{% for host in groups['cores'] %}
+{% if hostvars[host]['wireguard_public_key'] is defined %}
+[Peer]
+# {{ host }}
+PublicKey = {{ hostvars[host]['wireguard_public_key'] }}
+AllowedIPs = {{ hostvars[host]['wireguard_client_ip'] }}
+
+{% endif %}
+{% endfor %}

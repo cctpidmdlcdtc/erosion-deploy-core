@@ -1,0 +1,6 @@
+---
+- name: Deploy Erosion core
+  hosts: all
+  become: yes
+  roles:
+    - erosion_core

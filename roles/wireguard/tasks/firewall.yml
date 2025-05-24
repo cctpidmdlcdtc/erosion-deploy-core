@@ -1,0 +1,11 @@
+---
+- name: Configure nftables for WireGuard
+  block:
+    - name: Generate nftables configuration
+      template:
+        src: nftables.conf.j2
+        dest: /etc/nftables.conf
+      notify:
+        - restart nftables
+  when: 
+    - firewall_action == "server"

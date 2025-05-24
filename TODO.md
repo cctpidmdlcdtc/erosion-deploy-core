@@ -1,0 +1,5 @@
+- deploy-core
+- firewall on its own role
+- coturn
+- iperf3
+- community.general.wg_keypair

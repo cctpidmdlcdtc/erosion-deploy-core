@@ -1,0 +1,37 @@
+---
+- name: Include installation tasks
+  include_tasks: install.yml
+
+- name: Create WireGuard directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+  loop:
+    - "{{ wireguard_config_dir }}"
+    - "{{ wireguard_keys_dir }}"
+
+- name: Generate WireGuard keys
+  shell: |
+    wg genkey | tee {{ wireguard_keys_dir }}/private.key | wg pubkey > {{ wireguard_keys_dir }}/public.key
+    chmod 600 {{ wireguard_keys_dir }}/private.key
+    chmod 644 {{ wireguard_keys_dir }}/public.key
+  args:
+    creates: "{{ wireguard_keys_dir }}/private.key"
+
+- name: Read private key
+  slurp:
+    src: "{{ wireguard_keys_dir }}/private.key"
+  register: wg_private_key
+
+- name: Read public key
+  slurp:
+    src: "{{ wireguard_keys_dir }}/public.key"
+  register: wg_public_key
+
+- name: Store keys as facts
+  set_fact:
+    wireguard_private_key: "{{ wg_private_key.content | b64decode | trim }}"
+    wireguard_public_key: "{{ wg_public_key.content | b64decode | trim }}"
