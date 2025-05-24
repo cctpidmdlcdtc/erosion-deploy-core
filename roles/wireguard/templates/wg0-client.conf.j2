@@ -1,7 +1,6 @@
 [Interface]
 PrivateKey = {{ wireguard_private_key }}
 Address = {{ wireguard_client_ip }}
-DNS = {{ wireguard_dns }}
 
 [Peer]
 PublicKey = {{ hostvars[groups['portals'][0]]['wireguard_public_key'] }}
