@@ -3,4 +3,3 @@ wireguard_interface: wg0
 wireguard_port: 51820
 wireguard_config_dir: /etc/wireguard
 wireguard_keys_dir: "{{ wireguard_config_dir }}/keys"
-wireguard_dns: "8.8.8.8"

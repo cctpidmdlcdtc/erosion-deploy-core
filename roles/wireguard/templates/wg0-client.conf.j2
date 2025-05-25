@@ -5,4 +5,4 @@ Address = {{ wireguard_client_ip }}
 [Peer]
 PublicKey = {{ hostvars[groups['portals'][0]]['wireguard_public_key'] }}
 Endpoint = {{ wireguard_server_endpoint }}:{{ wireguard_server_port }}
-AllowedIPs = {{ wireguard_client_ip }}
+AllowedIPs = {{ wireguard_allowed_ips }}
