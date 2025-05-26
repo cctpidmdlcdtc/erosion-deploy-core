@@ -1,2 +1,3 @@
 # erosion-deploy-core
-Deploy Erosion game core
+
+Deploy Erosion game core.

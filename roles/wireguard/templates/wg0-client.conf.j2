@@ -6,3 +6,4 @@ Address = {{ wireguard_client_ip }}
 PublicKey = {{ hostvars[groups['portals'][0]]['wireguard_public_key'] }}
 Endpoint = {{ wireguard_server_endpoint }}:{{ wireguard_server_port }}
 AllowedIPs = {{ wireguard_allowed_ips }}
+PersistentKeepalive = 25

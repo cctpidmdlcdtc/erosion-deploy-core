@@ -3,11 +3,11 @@ Description=Erosion {{ item }} Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /opt/erosion/{{ item }}.py
-WorkingDirectory=/opt/erosion
+ExecStart={{ erosion_path }}/venv/bin/python {{ erosion_path }}/{{ item }}.py
+WorkingDirectory={{ erosion_path }}
 Restart=always
-User=pi
-Group=pi
+User={{ erosion_user }}
+Group={{ erosion_user }}
 Environment=PYTHONUNBUFFERED=1
 
 [Install]

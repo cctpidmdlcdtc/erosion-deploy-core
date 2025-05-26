@@ -1,0 +1,2 @@
+erosion_user: erosion
+erosion_path: "/opt/{{ erosion_user }}"

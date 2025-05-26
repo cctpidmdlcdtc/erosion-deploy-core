@@ -1,50 +1,71 @@
 ---
+- name: Create user
+  user:
+    name: erosion
+    shell: /bin/bash
+    create_home: no
+    state: present
+
 - name: Ensure pip is installed
   apt:
     name: python3-pip
     state: present
     update_cache: yes
 
-- name: Create /opt/erosion directory
+- name: Create {{ erosion_path }} directory
   file:
-    path: /opt/erosion
+    path: "{{ erosion_path }}"
     state: directory
-    mode: '0755'
+    mode: '0700'
+    owner: erosion
+    group: erosion
 
-- name: Copy files to /opt/erosion
-  copy:
-    src: "{{ item }}"
-    dest: /opt/erosion/
-    mode: '0644'
-  loop:
-    - "index.html"
-    - "webrtc_stream.py"
-    - "websocket_control.py"
-    - "gamepad.js"
-    - "styles.css"
-    - "requirements.txt"
+- name: Create virtual environment for erosion user
+  command: "python3 -m venv {{ erosion_path }}/venv"
+  args:
+    creates: "{{ erosion_path }}/venv/bin/python"
+  become_user: erosion
 
-- name: Install Python dependencies
+
+
+#- name: Copy files to {{ erosion_path }}
+#  copy:
+#    src: "{{ item }}"
+#    dest: "{{ erosion_path }}/"
+#    mode: '0644'
+#  loop:
+#    - "index.html"
+#    - "webrtc_stream.py"
+#    - "websocket_control.py"
+#    - "gamepad.js"
+#    - "styles.css"
+#    - "requirements.txt"
+
+
+
+- name: Install requirements in virtual environment
   pip:
-    requirements: /opt/erosion/requirements.txt
-    executable: pip3
+    requirements: "{{ erosion_path }}/requirements.txt"
+    virtualenv: "{{ erosion_path }}/venv"
     state: present
+  become_user: erosion
 
 - name: Create systemd units for webrtc_stream.py
   template:
     src: erosion.service.j2
-    dest: /etc/systemd/system/{{ item }}.service
+    dest: /etc/systemd/system/erosion_{{ item }}.service
     mode: '0644'
   loop:
-    - erosion_webrtc_stream
-    - erosion_websocket_control
-  notify: Restart {{ item }}
+    - webrtc_stream
+    #- websocket_control
+  notify: Restart erosion_{{ item }}
 
 - name: Enable and start services
   systemd:
     name: "{{ item }}"
     enabled: yes
     state: started
+    daemon_reload: true
   loop:
     - erosion_webrtc_stream
-    - erosion_websocket_control
+    #- erosion_websocket_control

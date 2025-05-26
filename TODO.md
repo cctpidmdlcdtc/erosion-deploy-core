@@ -1,3 +1,4 @@
+- assemble core bits into wg0.conf on portal
 - deploy-core
 - firewall on its own role
 - coturn

@@ -2,6 +2,7 @@
 - name: restart wireguard
   systemd:
     name: "wg-quick@{{ wireguard_interface }}"
+    daemon_reload: yes
     state: restarted
 
 - name: reload ufw
@@ -11,4 +12,5 @@
 - name: restart nftables
   systemd:
     name: nftables
+    daemon_reload: yes
     state: restarted
