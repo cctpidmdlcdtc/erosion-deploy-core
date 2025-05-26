@@ -21,7 +21,7 @@
     group: erosion
 
 - name: Create virtual environment for erosion user
-  command: "python3 -m venv {{ erosion_path }}/venv"
+  command: "python3 -m venv --system-site-packages {{ erosion_path }}/venv"
   args:
     creates: "{{ erosion_path }}/venv/bin/python"
   become_user: erosion
