@@ -6,6 +6,6 @@
         src: nftables.conf.j2
         dest: /etc/nftables.conf
       notify:
-        - restart nftables
+        - Restart nftables
   when: 
     - firewall_action == "server"

@@ -7,7 +7,7 @@
     owner: root
     group: root
   notify:
-    - restart wireguard
+    - Restart wireguard
 
 - name: Configure firewall for server
   include_tasks: firewall.yml

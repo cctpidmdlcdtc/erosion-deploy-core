@@ -1,11 +1,11 @@
 ---
-- name: restart wireguard
+- name: Restart wireguard
   systemd:
     name: "wg-quick@{{ wireguard_interface }}"
     daemon_reload: yes
     state: restarted
 
-- name: restart nftables
+- name: Restart nftables
   systemd:
     name: nftables
     daemon_reload: yes
