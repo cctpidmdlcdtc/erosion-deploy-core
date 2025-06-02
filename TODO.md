@@ -4,7 +4,7 @@
 - erosion user needs:
     - user:
         name: erosion
-        groups: video <-------------
+        groups: video <------------- user must be on video group
         append: yes
         state: present
 - install nginx on core to allow direct connection from laptop/phone to car
