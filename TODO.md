@@ -1,3 +1,4 @@
+# TODO
 - assemble core bits into wg0.conf on portal
 - requirements.txt has to differ from usb to rpicam
 - erosion user needs:
