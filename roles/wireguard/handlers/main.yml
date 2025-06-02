@@ -5,10 +5,6 @@
     daemon_reload: yes
     state: restarted
 
-- name: reload ufw
-  ufw:
-    state: reloaded
-
 - name: restart nftables
   systemd:
     name: nftables
