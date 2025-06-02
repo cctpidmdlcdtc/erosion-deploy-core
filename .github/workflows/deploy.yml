@@ -13,6 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Ansible playbook
+        working-directory: ./erosion-portal
         run: |
           source ~/.venvs/ansible/bin/activate
           ansible-playbook -i hosts.yml deploy-core.yml --limit explosivo --check
